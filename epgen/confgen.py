@@ -9,6 +9,7 @@
 '''
 
 from jinja2 import Environment, FileSystemLoader
+import yaml
 
 def generate_config(project_name, project_rootdir, build_target,
         tmpl_name='default'):
@@ -19,4 +20,9 @@ def generate_config(project_name, project_rootdir, build_target,
 
     with open('config', 'w') as f:
         f.write(tmpl.render(locals()))
+
+def read_config(filename):
+    with open(filename) as f:
+        configs = yaml.load(f)
+        return configs
 
