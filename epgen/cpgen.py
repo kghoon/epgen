@@ -11,8 +11,8 @@ from xml.etree.ElementTree import parse, Element, dump
 from xml.etree import ElementTree
 from xml.dom import minidom
 import re
-def generate_classpath(configs, output):
-    tree = parse('./templates/classpath')
+def generate_classpath(configs, output, tmpl_dir):
+    tree = parse('%(tmpl_dir)s/classpath' % locals())
     root = tree.getroot()
 
     for entry in configs['classpaths']:

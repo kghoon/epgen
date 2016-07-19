@@ -38,5 +38,4 @@ def generate_project(configs, output, tmpl_dir='templates'):
         # remove all whitespaces before beautifying
         xmlstr = re.sub(r'>\s+', '>', xmlstr)
         xmlstr = minidom.parseString(xmlstr).toprettyxml(indent="\t")
-        print xmlstr
         f.write(xmlstr.encode('utf-8'))
