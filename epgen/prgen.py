@@ -11,6 +11,7 @@
 from xml.etree import ElementTree
 from xml.dom import minidom
 from jinja2 import Environment, FileSystemLoader
+import re
 
 def generate_project(configs, output):
     env = Environment(loader=FileSystemLoader('./templates'),
@@ -32,6 +33,9 @@ def generate_project(configs, output):
         location.text = "%s/%s" % (configs['rootdir'], entry['location'])
 
     with open(output, 'w') as f:
-        xmlstr = minidom.parseString(ElementTree.tostring(root)).toprettyxml(indent="\t")
+        xmlstr = ElementTree.tostring(root)
+        # remove all whitespaces before beautifying
+        xmlstr = re.sub(r'>\s+', '>', xmlstr)
+        xmlstr = minidom.parseString(xmlstr).toprettyxml(indent="\t")
         print xmlstr
         f.write(xmlstr.encode('utf-8'))
