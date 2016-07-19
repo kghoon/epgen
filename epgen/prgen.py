@@ -13,14 +13,15 @@ from xml.dom import minidom
 from jinja2 import Environment, FileSystemLoader
 import re
 
-def generate_project(configs, output):
-    env = Environment(loader=FileSystemLoader('./templates'),
+def generate_project(configs, output, tmpl_dir='templates'):
+    env = Environment(loader=FileSystemLoader(tmpl_dir),
             trim_blocks=True)
     tmpl = env.get_template('project')
     root = ElementTree.fromstring(tmpl.render(configs))
     linkedResources = root.find("linkedResources")
+    links = configs['links'] or []
 
-    for entry in configs['links']:
+    for entry in links:
         node = ElementTree.SubElement(linkedResources, 'link')
 
         name = ElementTree.SubElement(node, 'name')
