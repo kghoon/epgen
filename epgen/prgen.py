@@ -11,15 +11,17 @@
 from xml.etree import ElementTree
 from xml.dom import minidom
 from jinja2 import Environment, FileSystemLoader
+import re
 
-def generate_project(configs, output):
-    env = Environment(loader=FileSystemLoader('./templates'),
+def generate_project(configs, output, tmpl_dir='templates'):
+    env = Environment(loader=FileSystemLoader(tmpl_dir),
             trim_blocks=True)
     tmpl = env.get_template('project')
     root = ElementTree.fromstring(tmpl.render(configs))
     linkedResources = root.find("linkedResources")
+    links = configs['links'] or []
 
-    for entry in configs['links']:
+    for entry in links:
         node = ElementTree.SubElement(linkedResources, 'link')
 
         name = ElementTree.SubElement(node, 'name')
@@ -32,6 +34,9 @@ def generate_project(configs, output):
         location.text = "%s/%s" % (configs['rootdir'], entry['location'])
 
     with open(output, 'w') as f:
-        xmlstr = minidom.parseString(ElementTree.tostring(root)).toprettyxml(indent="\t")
+        xmlstr = ElementTree.tostring(root)
+        # remove all whitespaces before beautifying
+        xmlstr = re.sub(r'>\s+', '>', xmlstr)
+        xmlstr = minidom.parseString(xmlstr).toprettyxml(indent="\t")
         print xmlstr
         f.write(xmlstr.encode('utf-8'))

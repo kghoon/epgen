@@ -10,7 +10,7 @@
 from xml.etree.ElementTree import parse, Element, dump
 from xml.etree import ElementTree
 from xml.dom import minidom
-
+import re
 def generate_classpath(configs, output):
     tree = parse('./templates/classpath')
     root = tree.getroot()
@@ -22,6 +22,9 @@ def generate_classpath(configs, output):
         root.append(node)
 
     with open(output, 'w') as f:
-        xmlstr = minidom.parseString(ElementTree.tostring(root)).toprettyxml(indent="\t")
+        xmlstr = ElementTree.tostring(root)
+        # remove all whitespaces before beautifying
+        xmlstr = re.sub(r'>\s+', '>', xmlstr)
+        xmlstr = minidom.parseString(xmlstr).toprettyxml(indent="\t")
         f.write(xmlstr.encode('utf-8'))
 
