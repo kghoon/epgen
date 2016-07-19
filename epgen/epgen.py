@@ -20,7 +20,6 @@ class EpgenRuntime:
     TMPL_DIR = './templates'
 
     target_dir = './output'
-    config_output = './config'
     config_tmpl = 'default'
     install_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
     current_path = os.getcwd()
@@ -61,9 +60,10 @@ class EpgenRuntime:
 
     def generate_config(self):
         tmpl_dir = '%s/configs' % self.install_path
+        config_output = '%s.config' % self.config_tmpl
 
         generate_config(self.project_name, self.project_rootdir,
-                self.build_target, self.config_tmpl, tmpl_dir)
+                self.build_target, self.config_tmpl, tmpl_dir, config_output)
 
     def read_config(self):
         self.configs = read_config(self.config_file)
@@ -73,7 +73,8 @@ class EpgenRuntime:
         os.system("mkdir -p %s/settings" % self.target_dir)
 
     def generate_classpath(self):
-        generate_classpath(self.configs, "%s/.classpath" % self.target_dir)
+        tmpl_dir = '%s/templates' % self.install_path
+        generate_classpath(self.configs, "%s/.classpath" % self.target_dir, tmpl_dir)
 
     def generate_project(self):
         tmpl_dir = '%s/templates' % self.install_path
