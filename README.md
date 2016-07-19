@@ -1,5 +1,12 @@
-# epgen
+epgen
+=====
 Eclipse Project Generator
+
+Requirements
+------------
+- python 2.7.x
+- pip, virtualenv
+- Linux or OSX, MINGW32 (Currently doesn't work on git-bash)
 
 Install
 -------
