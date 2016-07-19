@@ -12,13 +12,13 @@ from jinja2 import Environment, FileSystemLoader
 import yaml
 
 def generate_config(project_name, project_rootdir, build_target,
-        tmpl_name='default'):
+        tmpl_name='default', tmpl_dir='configs', output='config'):
 
-    env = Environment(loader=FileSystemLoader('./configs'),
+    env = Environment(loader=FileSystemLoader(tmpl_dir),
             trim_blocks=True)
     tmpl = env.get_template('%(tmpl_name)s.config' % locals())
 
-    with open('config', 'w') as f:
+    with open(output, 'w') as f:
         f.write(tmpl.render(locals()))
 
 def read_config(filename):
