@@ -11,10 +11,10 @@ if __name__ == '__main__':
         raise 'No virtualenv found'
 
     ve_dir = "%(work_root)s/.virtualenv" %  locals()
-
     os.system("mkdir -p %(ve_dir)s" % locals())
     os.system("virtualenv %(ve_dir)s" % locals())
     os.system("%(ve_dir)s/bin/pip install -r %(work_root)s/requirements.txt" % locals())
+    os.system('mkdir -p %(work_root)s/bin' % locals())
 
     script_filename = '%(work_root)s/bin/epgen' % locals()
     with open(script_filename, 'w') as f:
