@@ -70,7 +70,8 @@ class EpgenRuntime:
         self.target_dir = self.configs['name']
 
     def make_dirs(self):
-        os.system("mkdir -p %s/settings" % self.target_dir)
+        os.system("mkdir -p %s/.settings" % self.target_dir)
+        os.system("mkdir -p %s/src" % self.target_dir)
 
     def generate_classpath(self):
         tmpl_dir = '%s/templates' % self.install_path
@@ -81,12 +82,12 @@ class EpgenRuntime:
         generate_project(self.configs, "%s/.project" % self.target_dir, tmpl_dir)
 
     def copy_rest_templates(self):
-        settings_dir = "%s/settings" % self.TMPL_DIR
+        settings_dir = "%s/templates/settings" % self.install_path
 
         for root, dir, files in os.walk(settings_dir):
             for f in files:
                 src_file = os.path.join(root, f)
-                dst_dir = os.path.join('%s/settings/' % self.target_dir)
+                dst_dir = os.path.join('%s/.settings/' % self.target_dir)
                 os.system("cp -f %(src_file)s %(dst_dir)s" % locals())
 
 
