@@ -38,7 +38,15 @@ class EpgenRuntime:
             self.copy_rest_templates()
 
     def parse_args(self):
-        parser = argparse.ArgumentParser(description='generate eclipse project templates')
+        parser = argparse.ArgumentParser(
+                formatter_class=argparse.RawDescriptionHelpFormatter,
+                description='''
+Generate eclipse project templates
+
+example:
+$ epgen --config default --workwoot z:/works/skylife/g4 --name skylife-default --buildtarget echo_ns
+$ epgen ./skylife-default.config
+                ''')
         group = parser.add_mutually_exclusive_group(required=True)
         group.add_argument('--config', nargs='?', help="generate config file with given CONFIG template")
         group.add_argument('config_file', nargs='?', help="generate project templates using the config file")
